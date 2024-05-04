@@ -1,10 +1,9 @@
 <body class="bg-white text-black min-h-screen items-center justify-center">
-  <div class="lg:w-1/2 p-8 rounded-md mx-auto py-52 text-center">
-    <h1 class="text-3xl font-bold mb-6">
+  <div class="lg:w-1/2 p-8 rounded-md mx-auto py-52">
+    <h1 class="text-3xl font-bold mb-6 text-center">
       Ask anything about Doungeons and Dragons!
     </h1>
     <div id="resultContainer" class="mt-4 h-48 overflow-y-auto">
-      <p class="text-gray-500 text-sm mb-2">Generated Text</p>
       <p id="resultText" class="whitespace-pre-line"></p>
     </div>
     <input
@@ -32,11 +31,22 @@
 </body>
 
 <script>
-const inputField = document.getElementById("resultContainer");
-fetch("http://37.60.248.168:8080")
-    .then((response) => response.json())
-    .then((data) => {
-        inputField.innerHTML = data.response;
-    })
-    .catch((error) => inputField.innerHTML = "Error!");
+  const promptInput = document.getElementById("promptInput");
+  const generateBtn = document.getElementById("generateBtn");
+  const resultText = document.getElementById("resultText");
+  const queryForm = document.getElementById("queryForm");
+
+  function sendRequest(event) {
+    event.preventDefault();
+    const query = encodeURIComponent(promptInput.value.trim());
+    fetch(`http://37.60.248.168:8080/ask/${query}`)
+      .then((response) => response.json())
+      .then((data) => {
+        resultText.innerHTML = data.response;
+        promptInput.value = "";
+      });
+  }
+
+  generateBtn.addEventListener("click", sendRequest);
+  queryForm.addEventListener("submit", sendRequest);
 </script>
