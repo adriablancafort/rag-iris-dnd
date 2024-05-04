@@ -2,8 +2,8 @@ from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from openai import OpenAI
 from db_create import get_context_query
-from scrapper import text_from_pdfURL
-
+from pdf_scrapper import text_from_pdfURL
+from web_scrapper import extract_content
 
 app = FastAPI()
 client = OpenAI(api_key="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")
@@ -15,8 +15,6 @@ app.add_middleware(
     allow_methods=["*"],
     allow_headers=["*"],
 )
-
-
 
 @app.get("/")
 async def root():
@@ -48,9 +46,9 @@ def get_url(URL:str) -> None:
     if URL[-3:] == "pdf":
         text = text_from_pdfURL(URL)
     else:
-        text = ""
-        #aplicar i importar funció de'n Joan
-    
+        text = extract_content(URL)
+
+
     #preprocess del text
 
 
