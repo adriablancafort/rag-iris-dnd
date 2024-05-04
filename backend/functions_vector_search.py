@@ -35,6 +35,28 @@ def string_docs_to_chunks(document_text: str) -> list[Document]:
     chunks = splitter.split(document_text)
     return [Document(content=chunk) for chunk in chunks]
 
+def list_docs_to_chunks(document_list: list[Document]) -> list[Document]:
+    """
+    Convert a document string into chunks.
+
+    Args:
+    - document_text (str): The input document text.
+
+    Returns:
+    - list[Document]: A list of Document objects representing chunks of the input document.
+    """
+    splitter = RecursiveCharacterTextSplitter(
+        separators=None,
+        keep_separator=True,
+        is_separator_regex=False,
+        chunk_size=400,
+        chunk_overlap=80,
+        length_function=len,
+    )
+
+    # Splitting documents into chunks
+    return splitter.split_documents(document_list)
+
 
 def save_database(document_text: str) -> None:
     """
@@ -70,7 +92,7 @@ def save_database(document_text: str) -> None:
     )
 
 
-def nearest_vector(query: str) -> list[str|None]:
+def nearest_vector(query: str, threshhold: float = 0.3) -> list[str]:
     """
     Find the nearest vectors to a given query string in the database.
 
@@ -99,6 +121,6 @@ def nearest_vector(query: str) -> list[str|None]:
     query_results = db.similarity_search_with_relevance_scores(query, k=6)
 
     # Filter results based on relevance score
-    filtered_results = [chunk.page_content if score < 0.3 else None for chunk, score in query_results]
+    filtered_results = [chunk.page_content for chunk, score in query_results if score < threshhold]
 
     return filtered_results
