@@ -2,10 +2,7 @@ from fastapi import FastAPI
 from openai import OpenAI
 
 app = FastAPI()
-
-client = OpenAI(
-    api_key="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"
-)
+client = OpenAI()
 
 
 @app.get("/")
