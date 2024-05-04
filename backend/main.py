@@ -2,6 +2,8 @@ from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from openai import OpenAI
 from db_create import get_context_query
+from scrapper import text_from_pdfURL
+
 
 app = FastAPI()
 client = OpenAI(api_key="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")
@@ -14,6 +16,8 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
+
+
 @app.get("/")
 async def root():
     return {"response": "OK"}
@@ -23,10 +27,8 @@ async def root():
 def ask(prompt: str):
     return {"response": get_response(prompt)}
 
-
 def get_response(prompt: str):
     db_name='Monopoly'
-    
     context_list = get_context_query(prompt, db_name)
     context_string = "\n".join(context_list) 
     completion = client.chat.completions.create(
@@ -38,3 +40,17 @@ def get_response(prompt: str):
     )
 
     return completion.choices[0].message.content
+
+
+@app.get("/get_url/{URL}")
+def get_url(URL:str) -> None:
+    text: str = ""
+    if URL[-3:] == "pdf":
+        text = text_from_pdfURL(URL)
+    else:
+        text = ""
+        #aplicar i importar funció de'n Joan
+    
+    #preprocess del text
+
+
