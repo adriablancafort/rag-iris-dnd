@@ -1,24 +1,18 @@
 import os
 
 # Importing necessary modules from langchain and langchain_openai
-from langchain.document_loaders.pdf import PyPDFDirectoryLoader
 from langchain_openai import OpenAIEmbeddings
 from langchain_text_splitters import RecursiveCharacterTextSplitter
 from langchain.schema.document import Document
 from langchain_iris import IRISVector
-
+from scrapper import load_documents
 # Function to initialize and return the embeddings model
 def get_embedding_function():
     embeddings_model = OpenAIEmbeddings(api_key="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")
     return embeddings_model
 
-# Function to load documents from a PDF folder
-def load_documents(pdf_folder_path: str):
-    document_loader = PyPDFDirectoryLoader(pdf_folder_path)
-    return document_loader.load()
-
 # Function to split the loaded documents into chunks
-def split_documents(documents: list[Document]):
+def split_documents(documents):
     # Initializing a RecursiveCharacterTextSplitter with specified parameters
     text_splitter = RecursiveCharacterTextSplitter(
         chunk_size = 400,
