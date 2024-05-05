@@ -6,17 +6,11 @@ It seems like you're working on documenting a backend API for a retrieval-augmen
 
 Welcome to the Retrieval-Augmented Generation Assistant API documentation. This API is designed to provide users with functionalities for retrieving information from URLs and generating responses to user prompts or questions based on the retrieved content.
 
-### Base URL
-
-```
-https://example.com/api/v1
-```
-
 ### Endpoints
 
 #### 1. GET_URL
 
-- **Description**: Fetches content from a given URL.
+- **Description**: Fetches content from a given URL (can be html or pdf).
   
 - **Method**: `POST`
   
@@ -27,15 +21,11 @@ https://example.com/api/v1
 
 - **Success Responses**:
   - **Code**: `200 OK`
-    - **Content**: JSON object containing the retrieved content.
+    - **Content**: Null if database was uploaded correctly to InterSystems
     - **Example**:
-      ```json
-      {
-        "content": "Lorem ipsum dolor sit amet, consectetur adipiscing elit...",
-        "type": "text",
-        "title": "Example Title"
-      }
-      ```
+      The database has been uploaded to the InterSystems website, as indicated in the image provided. 
+      ![image](https://github.com/adriablancafort/retrieval-augmented-generation-assistent-hackupc24/assets/132887066/913d99a1-d366-40c7-b6d8-68315a831198)
+      Additionally, the API returned null, signifying that the fetched document was found without any issues.
       ![Example Response](https://github.com/adriablancafort/retrieval-augmented-generation-assistent-hackupc24/assets/132887066/6b6e09e8-3a16-468d-902b-7acc14e6a645)
 
 - **Error Responses**:
