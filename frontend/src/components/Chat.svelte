@@ -1,19 +1,19 @@
 <script lang="ts">
-	import MessageLog from "./MessageLog.svelte";
-	import MessageLogEntry from "./MessageLogEntry.svelte";
+import MessageLog from "./MessageLog.svelte";
+import MessageLogEntry from "./MessageLogEntry.svelte";
 
-	let messages = [["bot", "Introduce any Url and ask me about its content!"]];
+let messages = [["bot", "Introduce any Url and ask me about its content!"]];
 
-	async function sendMessage(event) {
+async function sendMessage(event) {
     let msg = '';
 
     if (event instanceof KeyboardEvent && event.keyCode === 13) {
-        event.preventDefault();
-        msg = (event.target as HTMLElement).innerText.trim();
-        (event.target as HTMLElement).innerText = "";
+	event.preventDefault();
+	msg = (event.target as HTMLElement).innerText.trim();
+	(event.target as HTMLElement).innerText = "";
     } else {
-        msg = document.querySelector('.message-input-field').innerText.trim();
-        document.querySelector('.message-input-field').innerText = "";
+	msg = document.querySelector('.message-input-field').innerText.trim();
+	document.querySelector('.message-input-field').innerText = "";
     }
 
     if (!msg || msg === "") return;
@@ -23,23 +23,22 @@
     isLoading1 = true;
 
     try {
-        const response = await fetch(`http://127.0.0.1:8000/ask/${encodeURIComponent(msg)}`)
-            .then(res => res.json())
-            .then(data => data.respons
-            e);
+	const response = await fetch(`http://127.0.0.1:8000/ask/${encodeURIComponent(msg)}`)
+	    .then(res => res.json())
+	    .then(data => data.response);
 
-        messages = [...messages, ["bot", response]];
+	messages = [...messages, ["bot", response]];
     } catch (error) {
-        messages = [...messages, ["bot", error.message]];
+	messages = [...messages, ["bot", error.message]];
     } finally  {
-        isLoading1 = false;
+	isLoading1 = false;
     }
 }
 
-	let url = '';
+let url = '';
 
-	let isLoading1 = false;
-	let isLoading2 = false;
+let isLoading1 = false;
+let isLoading2 = false;
 
 async function sendUrl(event) {
     if (event instanceof KeyboardEvent && event.keyCode === 13) {
