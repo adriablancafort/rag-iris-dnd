@@ -57,7 +57,7 @@ async function sendUrl(event) {
 }
 </script>
 
-<h1 class="heading-title">Retrieval Agumented Generation Assistent</h1>
+<h1 class="heading-title">Retrieval Agumented Generation Assistant</h1>
 
 <article class="chat flex-col theme-primary" aria-label="Chat">
 	<MessageLog>
