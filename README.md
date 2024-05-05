@@ -2,6 +2,9 @@
 
 The Webpage Information Chatbot is an intelligent assistant designed to provide users with information about a specific webpage through natural language interaction. This chatbot serves as a convenient tool for users who want to quickly gather insights about a webpage without manually navigating through its content.
 
+![image](https://github.com/adriablancafort/retrieval-augmented-generation-assistent-hackupc24/assets/75630316/ecd6df03-ce36-48f6-a7ed-5f4b9d6b2b35)
+
+
 ## Features
 
 - **Webpage Data Loading Placeholder:** The chatbot includes a placeholder for loading data from a webpage. Users can provide the URL of the webpage they are interested in, and the chatbot will retrieve relevant information from the webpage in real-time.
