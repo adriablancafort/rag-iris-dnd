@@ -1,0 +1,72 @@
+* {
+	padding: 0;
+	margin: 0;
+	box-sizing: border-box;
+	font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI",
+		Roboto, Oxygen, Ubuntu, Cantarell, "Open Sans", "Helvetica Neue",
+		sans-serif;
+}
+
+/* color scheme goes to hell, classic light dark toggle */
+
+body.dark {
+	--bg-color-primary: hsl(0, 0%, 12.5%);
+	--bg-color-secondary: hsl(0, 0%, 32%);
+	--bg-color-accent: hsl(130, 68%, 48%);
+}
+
+body.light {
+	--bg-color-primary: hsl(0, 0%, 87.5%);
+	--bg-color-secondary: hsl(0, 0%, 69%);
+	--bg-color-accent: hsl(117, 74%, 56%);
+}
+
+/* textarea {
+	border: none;
+	overflow: auto;
+	outline: none;
+
+	-webkit-box-shadow: none;
+	-moz-box-shadow: none;
+	box-shadow: none;
+
+	resize: none;
+} */
+
+.flex-col {
+	display: flex;
+	flex-direction: column;
+}
+
+.text-wrap {
+	white-space: pre-wrap;
+	word-break: break-word;
+	word-wrap: break-word;
+	overflow-wrap: break-word;
+}
+
+.textarea-like {
+	border: none;
+	overflow: auto;
+	outline: none;
+	box-shadow: none;
+
+	-webkit-user-select: text;
+	user-select: text;
+}
+
+.show {
+	display: block !important;
+}
+
+.theme-primary {
+	background-color: var(--bg-color-primary);
+}
+
+.theme-secondary {
+	background-color: var(--bg-color-secondary);
+}
+
+.theme-accent {
+	background-color: var(--bg-color-accent);
+}
