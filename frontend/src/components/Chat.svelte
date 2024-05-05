@@ -66,22 +66,22 @@ async function sendUrl(event) {
 		{/each}
 	</MessageLog>
 	<div class="message-input-container flex-col">
-    <div
-        class="message-input-field textarea-like text-wrap theme-secondary"
-        contenteditable="true"
-        role="textbox"
-        aria-label="Message input field"
-        tabindex="0"
-        on:keydown={(event) => { if (event.keyCode === 13) sendMessage(event); }}
-    />
-    <button class="send-button" on:click={sendMessage}>
-    {#if isLoading1}
-        <img src="/loading.svg" alt="Loading..." class="loading-spiner" />
-    {:else}
-        Send
-    {/if}
-    </button>
-</div>
+	    <div
+		class="message-input-field textarea-like text-wrap theme-secondary"
+		contenteditable="true"
+		role="textbox"
+		aria-label="Message input field"
+		tabindex="0"
+		on:keydown={(event) => { if (event.keyCode === 13) sendMessage(event); }}
+	    />
+	    <button class="send-button" on:click={sendMessage}>
+	    {#if isLoading1}
+		<img src="/loading.svg" alt="Loading..." class="loading-spiner" />
+	    {:else}
+		Send
+	    {/if}
+	    </button>
+	</div>
 	<div class="message-input-container flex-col">
 		<input
 			class="message-input-field textarea-like text-wrap theme-secondary"
@@ -110,30 +110,29 @@ async function sendUrl(event) {
 		font-weight: 700;
 		margin: 1.5rem 0;
 	}
-
-    .chat {
-        width: 100%;
-        height: 85%;
-        padding: 1rem;
-        align-items: center;
+	
+	.chat {
+		width: 100%;
+		height: 85%;
+		padding: 1rem;
+		align-items: center;
 		border-radius: 1rem;
 		box-shadow: 0 0 7rem rgba(180, 180, 180, 0.5);
-    }
-
-    .message-input-container {
-        height: 15%;
-        width: 100%;
-        justify-content: flex-end;
-		position: relative;
-    }
-
-    .message-input-field {
-        width: 100%;
-        padding: 1rem;
+	}
+	
+	.message-input-container {
+		height: 15%;
+		width: 100%;
+		justify-content: flex-end; position: relative;
+	}
+	
+	.message-input-field {
+		width: 100%;
+		padding: 1rem;
 		padding-right: 4rem;
-        border-radius: 0.5rem;
-        font-size: 16px;
-    }
+		border-radius: 0.5rem;
+		font-size: 16px;
+	}
 
 	.send-button {
 		position: absolute;
@@ -143,11 +142,11 @@ async function sendUrl(event) {
 		background-color: var(--bg-color-accent);
 		border-radius: 0.2rem;
 	}
-
+	
 	.loading-spiner {
 		animation: spin 1s infinite linear;
 	}
-
+	
 	@keyframes spin {
 		from {
 			transform: rotate(0deg);
