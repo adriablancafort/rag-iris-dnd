@@ -1,164 +1,76 @@
-<script lang="ts">
-import MessageLog from "./MessageLog.svelte";
-import MessageLogEntry from "./MessageLogEntry.svelte";
+from fastapi import FastAPI
+from fastapi.middleware.cors import CORSMiddleware
+from openai import OpenAI
+from functions_vector_search import save_database, nearest_vector
+from pdf_scrapper import text_from_pdfURL
+from web_scrapper import extract_content
 
-let messages = [["bot", "Introduce any Url and ask me about its content!"]];
+# Initialize FastAPI app
+app = FastAPI()
 
-async function sendMessage(event) {
-    let msg = '';
+# Initialize OpenAI client
+client = OpenAI(api_key="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")
 
-    if (event instanceof KeyboardEvent && event.keyCode === 13) {
-	event.preventDefault();
-	msg = (event.target as HTMLElement).innerText.trim();
-	(event.target as HTMLElement).innerText = "";
-    } else {
-	msg = document.querySelector('.message-input-field').innerText.trim();
-	document.querySelector('.message-input-field').innerText = "";
-    }
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["*"],
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
 
-    if (!msg || msg === "") return;
+# Root endpoint
+@app.get("/")
+async def root():
+    return {"response": "OK"}
 
-    messages = [...messages, ["user", msg]];
+# Ask endpoint to get response from OpenAI API
+@app.get("/ask/{prompt}")
+def ask(prompt: str):
+    return {"response": get_response(prompt)}
 
-    isLoading1 = true;
+# Function to get response from OpenAI API
+def get_response(prompt: str) -> str:
+    """
+    Given a prompt, gets the additional information from the vectorial database
+    and obtains the answer from the OpenAI API.
 
-    try {
-	const response = await fetch(`http://127.0.0.1:8000/ask/${encodeURIComponent(msg)}`)
-	    .then(res => res.json())
-	    .then(data => data.response);
+    Parameters: String with the query
+    Output: A string with the answer to the query 
+    """
+    # Get context from vector database
+    context_list = nearest_vector(prompt, 1) # list of strings; if list length is 0, the text is not talking about the subject
+    print(context_list)
+    context_string = "--------".join(context_list) 
+    if len(context_list) == 0:
+        # If no context found, ask OpenAI directly
+        completion = client.chat.completions.create(
+            model="gpt-3.5-turbo",
+            messages=[
+                {"role": "system", "content": 'Answer the question'},
+                {"role": "user", "content": prompt}
+            ]
+        )
+        return completion.choices[0].message.content + " No additional information was given to answer this question."
 
-	messages = [...messages, ["bot", response]];
-    } catch (error) {
-	messages = [...messages, ["bot", error.message]];
-    } finally  {
-	isLoading1 = false;
-    }
-}
+    else:
+        # If context found, provide context to OpenAI
+        completion = client.chat.completions.create(
+            model="gpt-3.5-turbo",
+            messages=[
+                {"role": "system", "content": 'Answer questions based only on the following context:'+context_string+'if context does not exist, or you can\'t find the answer, say it'},
+                {"role": "user", "content": prompt}
+            ]
+        )
+        return completion.choices[0].message.content
 
-let url = '';
-
-let isLoading1 = false;
-let isLoading2 = false;
-
-async function sendUrl(event) {
-    if (event instanceof KeyboardEvent && event.keyCode === 13) {
-        event.preventDefault();
-    }
-
-    isLoading2 = true;
-
-    try {
-        await fetch(`http://127.0.0.1:8000/get_url/${encodeURIComponent(url)}`);
-    } catch (error) {
-        // Handle error
-    } finally {
-        isLoading2 = false;
-    }
-}
-</script>
-
-<h1 class="heading-title">Retrieval Agumented Generation Assistant</h1>
-
-<article class="chat flex-col theme-primary" aria-label="Chat">
-	<MessageLog>
-		{#each messages as [sender, message]}
-			<MessageLogEntry {sender} {message} />
-		{/each}
-	</MessageLog>
-	<div class="message-input-container flex-col">
-	    <div
-		class="message-input-field textarea-like text-wrap theme-secondary"
-		contenteditable="true"
-		role="textbox"
-		aria-label="Message input field"
-		tabindex="0"
-		on:keydown={(event) => { if (event.keyCode === 13) sendMessage(event); }}
-	    />
-	    <button class="send-button" on:click={sendMessage}>
-	    {#if isLoading1}
-		<img src="/loading.svg" alt="Loading..." class="loading-spiner" />
-	    {:else}
-		Send
-	    {/if}
-	    </button>
-	</div>
-	<div class="message-input-container flex-col">
-		<input
-			class="message-input-field textarea-like text-wrap theme-secondary"
-			type="url"
-			aria-label="Message input field"
-			tabindex="0"
-			placeholder="Website Url"
-			bind:value={url}
-			on:keydown={(event) => { if (event.keyCode === 13) sendUrl(event); }}
-		/>
-		<button class="send-button" on:click={sendUrl}>
-			{#if isLoading2}
-				<img src="/loading.svg" alt="Loading..." class="loading-spiner" />
-			{:else}
-				Send
-			{/if}
-		</button>
-	</div>
-</article>
-
-<style>
-	.heading-title {
-		text-align: center;
-		font-size: 3rem;
-		line-height: 3.8rem;
-		font-weight: 700;
-		margin: 1.5rem 0;
-	}
-	
-	.chat {
-		width: 100%;
-		height: 85%;
-		padding: 1rem;
-		align-items: center;
-		border-radius: 1rem;
-		box-shadow: 0 0 7rem rgba(180, 180, 180, 0.5);
-	}
-	
-	.message-input-container {
-		height: 15%;
-		width: 100%;
-		justify-content: flex-end; position: relative;
-	}
-	
-	.message-input-field {
-		width: 100%;
-		padding: 1rem;
-		padding-right: 4rem;
-		border-radius: 0.5rem;
-		font-size: 16px;
-	}
-
-	.send-button {
-		position: absolute;
-		right: 0.5rem;
-		bottom: 0.5rem;
-		padding: 0.5rem;
-		background-color: var(--bg-color-accent);
-		border-radius: 0.2rem;
-	}
-	
-	.loading-spiner {
-		animation: spin 1s infinite linear;
-	}
-	
-	@keyframes spin {
-		from {
-			transform: rotate(0deg);
-		}
-		to {
-			transform: rotate(360deg);
-		}
-	}
-
-	@media only screen and (max-width: 768px) {
-		.message-input-field {
-		    padding: 0.5rem;
-		}
-	}
-</style>
+# Get URL endpoint to extract text content from PDF or web page
+@app.get("/get_url/{URL:path}")
+def get_url(URL:str) -> None:
+    if URL[-3:] == "pdf":
+        text = text_from_pdfURL(URL)
+    else:
+        text = extract_content(URL)
+    
+    # Save extracted text to database
+    save_database(text)
