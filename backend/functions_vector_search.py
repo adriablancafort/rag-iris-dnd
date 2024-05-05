@@ -9,11 +9,11 @@ def get_embedding_function():
     """
     Initialize and return the OpenAI embeddings model.
     """
-    embeddings_model = OpenAIEmbeddings(api_key="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")
+    embeddings_model = OpenAIEmbeddings(api_key="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")
     return embeddings_model
 
 
-def string_docs_to_chunks(document_text: str) -> list[Document]:
+def docs_to_chunks(document_text: str|list) -> list[Document]:
     """
     Convert a document string into chunks.
 
@@ -32,40 +32,22 @@ def string_docs_to_chunks(document_text: str) -> list[Document]:
         length_function=len,
     )
 
-    chunks = splitter.split(document_text)
-    return [Document(content=chunk) for chunk in chunks]
-
-def list_docs_to_chunks(document_list: list[Document]) -> list[Document]:
-    """
-    Convert a document string into chunks.
-
-    Args:
-    - document_text (str): The input document text.
-
-    Returns:
-    - list[Document]: A list of Document objects representing chunks of the input document.
-    """
-    splitter = RecursiveCharacterTextSplitter(
-        separators=None,
-        keep_separator=True,
-        is_separator_regex=False,
-        chunk_size=400,
-        chunk_overlap=80,
-        length_function=len,
-    )
-
-    # Splitting documents into chunks
-    return splitter.split_documents(document_list)
+    if type(document_text) == str:
+        chunks = splitter.split_text(document_text)
+        chunks = [Document(page_content=chunk) for chunk in chunks]
+    else:
+        chunks = splitter.split_documents(document_text)
+    return chunks
 
 
-def save_database(document_text: str) -> None:
+def save_database(document_text: str|list) -> None:
     """
     Save chunks of a document into a database with their embeddings.
 
     Args:
     - document_text (str): The input document text.
     """
-    chunks = string_docs_to_chunks(document_text)
+    chunks = docs_to_chunks(document_text)
     embedding = get_embedding_function()
 
     # Database connection parameters
@@ -73,6 +55,8 @@ def save_database(document_text: str) -> None:
     hostname = os.getenv('IRIS_HOSTNAME', 'localhost')
     port, namespace = '1972', 'USER'
     CONNECTION_STRING = f"iris://{username}:{password}@{hostname}:{port}/{namespace}"
+
+    
 
     # Initialize IRISVector instance
     db = IRISVector(
@@ -92,7 +76,7 @@ def save_database(document_text: str) -> None:
     )
 
 
-def nearest_vector(query: str, threshhold: float = 0.3) -> list[str]:
+def nearest_vector(query: str, threshhold: float = 1) -> list[str]:
     """
     Find the nearest vectors to a given query string in the database.
 
@@ -118,8 +102,7 @@ def nearest_vector(query: str, threshhold: float = 0.3) -> list[str]:
     )
 
     # Perform similarity search on the database
-    query_results = db.similarity_search_with_relevance_scores(query, k=6)
-
+    query_results = db.similarity_search_with_relevance_scores(query, k=4)
     # Filter results based on relevance score
     filtered_results = [chunk.page_content for chunk, score in query_results if score < threshhold]
 
