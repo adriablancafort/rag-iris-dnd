@@ -39,48 +39,23 @@ Welcome to the Retrieval-Augmented Generation Assistant API documentation. This 
 - **Endpoint**: `/ask`
 
 - **Request Parameters**:
-  - `url` (string): The URL of the content to base the response on.
   - `question` (string): The question posed by the user.
 
 - **Success Responses**:
   - **Code**: `200 OK`
-    - **Content**: JSON object containing the generated response.
+    - **Content**: JSON object containing the generated response. If no awnser valid or found the API will tell you explain what happened in the questions.
     - **Example**:
       ```json
       {
-        "response": "The response to the user's question...",
-        "source_paragraph": "The relevant paragraph from the retrieved content..."
+        "response": "The response to the user's question..."
       }
       ```
       ![Example Response](https://github.com/adriablancafort/retrieval-augmented-generation-assistent-hackupc24/assets/132887066/84af8273-60ec-42d6-9293-eaab3e0a8bc8)
-
-- **Error Responses**:
-  - **Code**: `400 Bad Request`
-    - **Content**: JSON object containing an error message.
-    - **Example**:
-      ```json
-      {
-        "error": "Invalid URL provided."
-      }
-      ```
-      ![Invalid URL Error](https://github.com/adriablancafort/retrieval-augmented-generation-assistent-hackupc24/assets/132887066/c54a0221-68ce-4f54-88e8-5ca55e479ee2)
 
 ### Usage
 
 To use the Retrieval-Augmented Generation Assistant API, make HTTP POST requests to the appropriate endpoints with the required parameters.
 
-### Example
-
-Here's an example of how to use the API with cURL:
-
-```bash
-curl -X POST \
-  https://example.com/api/v1/get_url \
-  -H 'Content-Type: application/json' \
-  -d '{
-    "url": "https://example.com"
-  }'
-```
 
 ### Notes
 
