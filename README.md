@@ -1,7 +1,3 @@
-It seems like you're working on documenting a backend API for a retrieval-augmented generation assistant. Your README is a crucial part of your project as it helps users understand how to interact with your API. Let's expand and complete it:
-
----
-
 ## Retrieval-Augmented Generation Assistant API
 
 Welcome to the Retrieval-Augmented Generation Assistant API documentation. This API is designed to provide users with functionalities for retrieving information from URLs and generating responses to user prompts or questions based on the retrieved content.
