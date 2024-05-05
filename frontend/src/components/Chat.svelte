@@ -156,9 +156,9 @@ async function sendUrl(event) {
 		}
 	}
 
-    @media only screen and (max-width: 768px) {
-        .message-input-field {
-            padding: 0.5rem;
-        }
-    }
+	@media only screen and (max-width: 768px) {
+		.message-input-field {
+		    padding: 0.5rem;
+		}
+	}
 </style>
