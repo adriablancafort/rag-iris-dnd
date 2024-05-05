@@ -26,13 +26,8 @@ Welcome to the Retrieval-Augmented Generation Assistant API documentation. This 
 
 - **Error Responses**:
   - **Code**: `400 Bad Request`
-    - **Content**: JSON object containing an error message.
+    - **Content**: Raised Error
     - **Example**:
-      ```json
-      {
-        "error": "Invalid URL provided."
-      }
-      ```
       ![Invalid URL Error](https://github.com/adriablancafort/retrieval-augmented-generation-assistent-hackupc24/assets/132887066/c54a0221-68ce-4f54-88e8-5ca55e479ee2)
 
 #### 2. ASK
