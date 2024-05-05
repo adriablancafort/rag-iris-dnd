@@ -1,4 +1,23 @@
-## Retrieval-Augmented Generation Assistant API
+# User guide
+
+The Webpage Information Chatbot is an intelligent assistant designed to provide users with information about a specific webpage through natural language interaction. This chatbot serves as a convenient tool for users who want to quickly gather insights about a webpage without manually navigating through its content.
+
+## Features
+
+- **Webpage Data Loading Placeholder:** The chatbot includes a placeholder for loading data from a webpage. Users can provide the URL of the webpage they are interested in, and the chatbot will retrieve relevant information from the webpage in real-time.
+  
+- **Information Query Placeholder:** The chatbot offers a second placeholder where users can ask questions or request specific information about the loaded webpage. Users can inquire about various aspects of the webpage, such as its title, meta description, keywords, headings, images, links, and more.
+
+## Usage
+
+To use the Webpage Information Chatbot, follow these steps:
+
+1. Provide the URL of the webpage you want to analyze in the designated input field.
+2. Ask questions or request specific information about the webpage in the chat interface.
+3. Receive intelligent responses from the chatbot, which will provide relevant information extracted from the webpage.
+
+
+# Retrieval-Augmented Generation Assistant API
 
 Welcome to the Retrieval-Augmented Generation Assistant API documentation. This API is designed to provide users with functionalities for retrieving information from URLs and generating responses to user prompts or questions based on the retrieved content.
 
