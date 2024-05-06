@@ -9,7 +9,7 @@ from web_scrapper import extract_content
 app = FastAPI()
 
 # Initialize OpenAI client
-client = OpenAI(api_key="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")
+client = OpenAI()
 
 # Root endpoint
 @app.get("/")
