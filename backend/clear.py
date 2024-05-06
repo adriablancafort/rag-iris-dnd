@@ -6,7 +6,7 @@ def get_embedding_function():
     """
     Initialize and return the OpenAI embeddings model.
     """
-    embeddings_model = OpenAIEmbeddings(api_key="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")
+    embeddings_model = OpenAIEmbeddings()
     return embeddings_model
 
 
