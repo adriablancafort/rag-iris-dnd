@@ -1,24 +1,28 @@
-# User guide
+# Retrieval Augmented Generation Assistant
 
-The Retrieval Augmented Generation Assistant is an intelligent chatbot that enables users to ask questions about information that was not available in the training dataset of the Large Language Model being used. To achieve so, the user Just has to introduce any URL (it works both with pages and PDFs) and Augmented Generation Assistant will be able to answer questions about that content:
+The [Retrieval Augmented Generation Assistant](https://rag-assistant.pages.dev) is an intelligent chatbot that enables users to ask questions about information that was not available in the training dataset of the Large Language Model being used. 
+
+To achieve so, the user just has to introduce any URL (it works both with webpages and PDFs) and Retrieval Augmented Generation Assistant will be able to answer questions about that content:
 
 ![Retrieval Augmented Generation Assistant](https://github.com/adriablancafort/retrieval-augmented-generation-assistant-hackupc24/assets/76774853/d735261b-517f-4dd2-b961-de81d9c84e69)
 
+**Note:** This project was developed during the HackUPC 2024. [See it on DevPost](https://devpost.com/software/retrieval-augmented-generation-iris-intersystems)
+
 ## Features
 
-- **Webpage Data Loading Placeholder:** The chatbot includes a placeholder for loading data from a webpage. Users can provide the URL of the webpage they are interested in, and the chatbot will retrieve relevant information from the webpage in real-time.
-  
-- **Information Query Placeholder:** The chatbot offers a second placeholder where users can ask questions or request specific information about the loaded webpage. Users can inquire about various aspects of the webpage, such as its title, meta description, keywords, headings, images, links, and more.
+- **Specify Data Source Input:** The chatbot includes an input to specify the desired data source. Users can provide the URL of the webpage or PDF they are interested in, and the chatbot will retrieve relevant information from the webpage in real-time.
+
+- **Information Query Input:** The chatbot offers a second input where users can ask questions or request specific information about the loaded webpage or PDF. Users can inquire about any information available in the webpage, such as its title, meta description, keywords, headings, images, links, and more.
 
 ## Usage
 
 To use the Webpage Information Chatbot, follow these steps:
 
-1. Provide the URL of the webpage you want to analyze in the designated input field.
-2. Ask questions or request specific information about the webpage in the chat interface.
-3. Receive intelligent responses from the chatbot, which will provide relevant information extracted from the webpage.
+1. Provide the URL of the webpage or PDF you want to analyze in the designated input field.
+2. Ask questions or request specific information about the webpage or PDF in the chat interface.
+3. Receive intelligent responses from the chatbot, which will provide relevant information extracted from the webpage or PDF.
 
-# Retrieval-Augmented Generation Assistant API
+# Retrieval Augmented Generation Assistant API
 
 Welcome to the Retrieval-Augmented Generation Assistant API documentation. This API is designed to provide users with functionalities for retrieving information from URLs and generating responses to user prompts or questions based on the retrieved content.
 
@@ -76,8 +80,26 @@ Welcome to the Retrieval-Augmented Generation Assistant API documentation. This 
 
 To use the Retrieval-Augmented Generation Assistant API, make HTTP POST requests to the appropriate endpoints with the required parameters.
 
-
 ### Notes
 
 - Ensure that the URLs provided are accessible and contain valid content.
 - The API may return errors for invalid or inaccessible URLs.
+
+# How it works
+
+Retrieval Augmented Generation Assistant consists of two decoupled parts: a frontend interface and backend API, as you can see in the structure of this repository.
+
+## Frontend
+
+The frontend is a simple chat interface built using Svelte.js and Vite.js. It manages the logic of calling the correct API endpoints and a basic state management to show the user a loading spinner icon between a question is submitted and the message with the API response is rendered in the chat interface. It also includes a button to toggle between dark mode and white mode.
+
+## Backend
+
+The backend is built using the Python Framework FastAPI to expose the API endpoints specified before. It also requires an instance of the Iris Vector Database by InterSystems.
+
+- To scrape the webpages or PDFs, we are using Beautiful Soup.
+- To split the text into chunks we use RecursiveCharacterTextSplitter by Langchain.
+- To generate the embeddings we use the OpenAI text embedings model.
+- To store the embedings and perform similarity_search_with_relevance_scores, we use the Iris Vector Database by InterSystems.
+- To interact with the user, we use OpenAI gpt-3.5 turbo Large Language Model.
+- To Deploy the backend to a VPS we used Docker.
