@@ -1,10 +1,8 @@
 # User guide
 
-The Webpage Information Chatbot is an intelligent assistant designed to provide users with information about a specific webpage through natural language interaction. This chatbot serves as a convenient tool for users who want to quickly gather insights about a webpage without manually navigating through its content.
+The Retrieval Augmented Generation Assistant is an intelligent chatbot that enables users to ask questions about information that was not available in the training dataset of the Large Language Model being used. To achieve so, the user Just has to introduce any URL (it works both with pages and PDFs) and Augmented Generation Assistant will be able to answer questions about that content:
 
-![image](https://github.com/adriablancafort/retrieval-augmented-generation-assistent-hackupc24/assets/75630316/4fff409a-c5eb-4273-b5b9-ec7b6e0f9321)
-
-
+![Retrieval Augmented Generation Assistant](https://github.com/adriablancafort/retrieval-augmented-generation-assistant-hackupc24/assets/76774853/d735261b-517f-4dd2-b961-de81d9c84e69)
 
 ## Features
 
@@ -19,7 +17,6 @@ To use the Webpage Information Chatbot, follow these steps:
 1. Provide the URL of the webpage you want to analyze in the designated input field.
 2. Ask questions or request specific information about the webpage in the chat interface.
 3. Receive intelligent responses from the chatbot, which will provide relevant information extracted from the webpage.
-
 
 # Retrieval-Augmented Generation Assistant API
 
