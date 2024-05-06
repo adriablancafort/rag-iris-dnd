@@ -1,5 +1,5 @@
 {
-  "name": "chatbot-elizabot",
+  "name": "retrieval-augmented-generation-assistant",
   "private": true,
   "version": "0.0.0",
   "type": "module",
@@ -20,6 +20,5 @@
   },
   "dependencies": {
     "@tabler/icons-svelte": "^2.12.0",
-    "elizabot": "^0.0.3"
   }
 }
